@@ -15,8 +15,19 @@ bool FStateTreeCharacterGroundedCondition::TestCondition(FStateTreeExecutionCont
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 
+	if (!InstanceData.Character)
+	{
+		return false;
+	}
+
+	const UMovementComponent* MovementComponent = InstanceData.Character->GetMovementComponent();
+	if (!MovementComponent)
+	{
+		return false;
+	}
+
 	// is the character currently grounded?
-	bool bCondition = InstanceData.Character->GetMovementComponent()->IsMovingOnGround();
+	const bool bCondition = MovementComponent->IsMovingOnGround();
 
 	return InstanceData.bMustBeOnAir ? !bCondition : bCondition;
 }
@@ -299,6 +310,14 @@ EStateTreeRunStatus FStateTreeGetPlayerInfoTask::Tick(FStateTreeExecutionContext
 {
 	// get the instance data
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
+
+	if (!InstanceData.Character)
+	{
+		InstanceData.TargetPlayerCharacter = nullptr;
+		InstanceData.TargetPlayerLocation = FVector::ZeroVector;
+		InstanceData.DistanceToTarget = 0.0f;
+		return EStateTreeRunStatus::Running;
+	}
 
 	// get the character possessed by the first local player
 	InstanceData.TargetPlayerCharacter = Cast<ACharacter>(UGameplayStatics::GetPlayerPawn(InstanceData.Character, 0));
