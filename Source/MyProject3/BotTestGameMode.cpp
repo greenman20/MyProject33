@@ -1,13 +1,14 @@
 #include "BotTestGameMode.h"
 #include "BotCharacter.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "NavigationSystem.h"
 
 ABotTestGameMode::ABotTestGameMode()
 {
-    // Настраиваем класс игрока по умолчанию
-    DefaultPawnClass = nullptr; // Используем стандартный ThirdPersonCharacter
+    // DefaultPawnClass намеренно не переопределяем здесь:
+    // используем значение из настроек проекта / Blueprint GameMode.
 }
 
 void ABotTestGameMode::BeginPlay()

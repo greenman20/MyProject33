@@ -2,6 +2,7 @@
 
 #include "MyProject3GameMode.h"
 #include "BotCharacter.h"
+#include "EngineUtils.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "NavigationSystem.h"
